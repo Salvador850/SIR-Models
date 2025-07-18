@@ -1,9 +1,9 @@
-Program Summary
+Program Summary \n
 This Program is an Agent Based model of epidemics which uses perlin noise generation to hotspots, creating ciy like clusters of agents each agent has three main modes of movement, one where it moves randomly, one where it is attracted to hotspots and 
 one where it travels to a predesignated home to simulate a lockdown. The frequency of each of these movement modes can be customized. In addition this model also allows for the simulation of vital dynamics(births and deaths), sleep cycles, vaccine 
 development, and lockdowns.
 
-Command Line Arguments
+Command Line Arguments \n
 The command arguments are as follows: clumping_factor changes how attracted agents are to hotspots on the map this value should be a float above zero and below one. The next value map_size should be a positive integer, the map with be a square with width
 map_size. The third argument is infection_time which represents the average amount of time that the agents are infected for. The next argument is recovery_time it should be a positive integer that represents the average amount of days. The fifth 
 argument is agent_count and should be a positive integer representing the amount of agents in the simulation. The next value is infection_rate, it is a positive float, this value is a y axis dilation that is applied to the function f(x) = 2^x where x is 
