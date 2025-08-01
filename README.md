@@ -23,6 +23,7 @@ numpy, matplotlib, celluloid, progress, noise
 Pasteable Command to Get You Started:
 python3 agent_based_SIR.py 0.95 500 30 100 500 2000 0.8 1500 0.001 0.001 0.075 False 0.5 0.0
 
+--------------------
 
 SIRS
 
@@ -48,6 +49,7 @@ scipy, pandas, numpy, matplotlib, progress
 Pasteable Command:
 ython3 SIRS.py 1500 5 0 0.16 0.07 0.009 0.001 0.001 30
 
+--------------------
 
 Chronos Forecasting Model
 
@@ -66,7 +68,7 @@ pandas, torch, progress, autogluon
 Pasteable Command:
 python3 chronos_forecasting_model.py "/home/some data.txt" True
 
-
+--------------------
 
 Chronos Real World Predict
 
