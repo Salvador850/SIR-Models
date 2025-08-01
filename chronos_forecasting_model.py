@@ -27,7 +27,6 @@ bar.finish()
 data_frame["timestamp"] *= 10**13
 data_frame['target']  /= 30
 data_frame = data_frame.drop([str(i) for i in range(len(data_lists[0][0]) - 3)], axis=1)
-print(sum(data_frame['target'])/len(data_frame['target']))
 
 prediction_length = 50
 
@@ -43,7 +42,7 @@ full_data = TimeSeriesDataFrame.from_data_frame(
 # series at the end.
 if eval(sys.argv[2]) == True:
     loss = []
-    for i in range(49, 51):
+    for i in range(1, sys.argv[3] + 1):
         filtered_df = data_frame.loc[data_frame['item_id'] <= i]
         
         data = TimeSeriesDataFrame.from_data_frame(
@@ -79,7 +78,7 @@ if eval(sys.argv[2]) == True:
 # If fine tuned is false run zero shot, print loss
 else:
 
-    train_data, test_data = data.train_test_split(prediction_length)
+    train_data, test_data = full_ data.train_test_split(prediction_length)
     predictor = TimeSeriesPredictor(prediction_length=prediction_length, eval_metric="MSE")
     predictor.fit(
         train_data=train_data,
