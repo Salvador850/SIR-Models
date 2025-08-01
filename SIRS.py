@@ -5,23 +5,22 @@ import numpy as np
 import matplotlib.pyplot as plt
 from progress.bar import Bar
 
-for i in range(11, len(sys.argv)):
-    data_file = open(sys.argv[i], 'r').read()
-    if ']]' in data_file:
-        data_lists = data_file.split(']]')
-        
-        data_lists =  '[' + ']], '.join(data_lists)[:-2].replace('None', '') + ']'
-        data_lists = eval(data_lists)
-    else:
+
+data_frame = None
+for i in range(10, len(sys.argv)):
         data_file = open(sys.argv[i], 'r').read()
-        target_list = eval(data_file)
+        target_list = eval(data_file)[:1000]
         timestamp_list = [i for i in range(len(target_list))]
         item_id_list = [0 for i in range(len(target_list))]
 
         full_data = zip(item_id_list, timestamp_list, target_list)
-        data_frame = pd.DataFrame(full_data, columns=["item_id", "timestamp", "target"])
+        additional_data = pd.DataFrame(full_data, columns=["item_id", "timestamp", "target"])
 
-        data_frame['target'] /= 2 * (10**6)
+        additional_data['target'] /= 4 * (10**6)
+        if data_frame != None:
+            data_frame = pd.concat([data_frame, additional_data], ignore_index=True)
+        else:
+            data_frame = additional_data
 # data_lists = [i / 30 for i in data_lists]
 
 # SIR model equations
@@ -43,40 +42,33 @@ theta = float(sys.argv[6])
 b_rate = float(sys.argv[7])
 d_rate = float(sys.argv[8])
 
-time_series_len = 500
+time_series_len = len(data_frame)
 t = np.linspace(0, time_series_len, time_series_len)
 mse = []
-
-bar = Bar('Running Simulation', max=len(data_lists))
 
 solution = odeint(SIRS_model, y0, t, args=(beta, gamma, theta, b_rate, d_rate))
 S, I, R = solution.T
 new_I = [0] + [(beta * s * i) / (s + i + r) for s, i, r in zip(S, I, R)]
-new_I = [i / sys.argv[10] for i in new_I]
+new_I = [i / int(sys.argv[9]) for i in new_I]
+data_lists = list(data_frame['target'])
 
+for data_point in range(time_series_len):
+    mse.append((data_lists[data_point] - new_I[data_point])**2)
+    
 
-for i in range(len(data_lists)):
-    for data_point in range(time_series_len):
-        mse.append((data_lists[i][data_point][-1] - new_I[data_point])**2)
-        
-    if i % 9 == 0:
-        plt.plot(t,  [data_point[-1] for data_point in data_lists[i]], label="Agent Based Output")
-        plt.plot(new_I, label="SIRS Output", color="orange")
-        """
-        plt.plot(S, label='Susceptible', color='blue')
-        plt.plot(I, label='Infected',  color='red')
-        plt.plot(R, label='Recovered', color='green')
-        plt.plot([S[i] + I[i] + R[i] for i in range(len(S))], label='Total', color='black')
-        """
-        plt.xlabel('Timesteps')
-        plt.ylabel('New Case Predictions')
-        plt.title('SIRS vs. Agent Based Model Results Medium Urbanization')
-        
-        plt.legend()
-        plt.show()
-    bar.next()
-            
-bar.finish()
+plt.plot([data_point for data_point in data_lists], label="Agent Based Output")
+plt.plot(new_I, label="SIRS Output", color="orange")
+plt.xlabel('Timesteps')
+plt.ylabel('New Case Predictions')
+plt.title('SIRS vs. Agent Based Model Results Medium Urbanization')
 
+plt.legend()
+plt.show()
 
+frame_mse = []           
+for i in range(19):
+   frame = mse[i*50:][:(i + 1) * 50]
+   frame_mse.append(sum(frame)/len(frame))
+
+print("Frame Error:", frame_mse)
 print("Error:", sum(mse)/len(mse))
