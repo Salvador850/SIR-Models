@@ -58,7 +58,7 @@ Command Line Arguments:
 
 1. Data File, should be a 2d list, each sublist should have three items: the time series id, timestamp, and case numbers. The file format should be .txt
 2. This argument should be a boolean, True indicates that you want fine tuned models, false indicates that you would like a zero shot model.
-3. The maximum amount of time series the Chronos models should be trained on(integer)
+3. The maximum amount of time series the Chronos models should be trained on(integer).
 
 Dependencies:
 pandas, torch, progress, autogluon
@@ -67,5 +67,17 @@ Pasteable Command:
 python3 chronos_forecasting_model.py "/home/some data.txt" True
 
 Chronos Real World Predict
+
+Program Summary:
+Test a zero shot and fine tuned model on a large time series
+
+Command Line Arguments:
+1. Data File, should be a list of case numbers over time, .txt file format.
+2. Fine Tuned Model Path, should be the path to a folder that contains all data for a chronos model(this should be pregenerated when you create a chronos model)
+3. Prediction Lenth, this is the prediction length of the fine tuned model that your file path leads to(integer).
+
+Dependencies
+autogluon, progress, torch, matplotlib, pandas
+
 
 
