@@ -66,6 +66,8 @@ pandas, torch, progress, autogluon
 Pasteable Command:
 python3 chronos_forecasting_model.py "/home/some data.txt" True
 
+
+
 Chronos Real World Predict
 
 Program Summary:
@@ -79,5 +81,9 @@ Command Line Arguments:
 Dependencies
 autogluon, progress, torch, matplotlib, pandas
 
+
+Paper and Presentation Source Code
+
+This file contains two .zip files, which hold the LaTex source code for my full presentation and research paper that I made using data gathered from the above programs. Simply extract them and compile/run them with whatever method you prefer to produce those files.
 
 
